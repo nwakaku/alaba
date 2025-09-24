@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
+import { useRouter } from "@/shims/next-navigation";
+import Image from "@/shims/image";
 import CryptoIcon from "@/components/CryptoIcon";
 import { DonutChart } from "@/components/DonutChart";
 import { RefreshCw, ArrowDownToLine, ArrowUpFromLine, Eye } from "lucide-react";
@@ -67,13 +67,13 @@ export default function AnalyticsPage() {
   ];
 
   return (
-    <div className="">
+    <div className="bg-background text-foreground">
       {/* Main Layout */}
       <div className="px-10 py-10">
         <div className="flex justify-center">
           {/* Portfolio Panel */}
           <div className="flex-1">
-            <div className="bg-gradient-to-br from-white/15 to-white/8 border border-white/20 rounded-2xl p-8 backdrop-blur-2xl shadow-xl">
+            <div className="bg-foreground/5 border border-border rounded-2xl p-8 backdrop-blur-2xl shadow-xl">
               <div>
                 {/* Left Column and Chart Row */}
                 <div className="flex gap-16 mb-8 mt-8 ml-8 mr-8">

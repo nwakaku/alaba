@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
-import { exec } from "child_process";
+// Removed Next.js API route. This file is deprecated in Vite/SPA setup.
+export {}
 import { promisify } from "util";
 import path from "path";
 

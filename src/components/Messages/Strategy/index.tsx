@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/shims/image";
 import { useState } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { Percent, ArrowUpRight, AlertCircle } from "lucide-react";
@@ -45,7 +45,7 @@ export default function StrategyMessage({
     setExecutionResult(null);
 
     try {
-      const response = await fetch("/api/execute-swap", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/execute-swap`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -80,8 +80,8 @@ export default function StrategyMessage({
             height={32}
           />
         </div>
-        <div className="max-w-[80%] bg-white/5 rounded-2xl px-4 py-3">
-          <p className="mb-3 text-base text-white/90">{message.content}</p>
+        <div className="max-w-[80%] bg-foreground/5 rounded-2xl px-4 py-3">
+          <p className="mb-3 text-base opacity-90">{message.content}</p>
         </div>
       </div>
 
@@ -106,7 +106,7 @@ export default function StrategyMessage({
           </ResponsiveContainer>
         </div>
         {!editing ? (
-          <ul className="space-y-2 text-sm text-white/90">
+          <ul className="space-y-2 text-sm opacity-90">
             {data.map((d) => (
               <li key={d.name} className="flex items-center gap-2">
                 <span
@@ -114,7 +114,7 @@ export default function StrategyMessage({
                   style={{ backgroundColor: d.color }}
                 />
                 <span className="font-medium">{d.name}</span>
-                <span className="text-white/60">{d.value}%</span>
+                <span className="opacity-60">{d.value}%</span>
                 <span>
                   <Image src={d.icon} alt={d.name} width={20} height={20} />
                 </span>

@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import Image from "@/shims/image";
 import { usePrivy } from "@privy-io/react-auth";
 import { ArrowUpRight, RotateCcw } from "lucide-react";
 import InvestmentForm from "@/components/InvestmentForm";
 import { Message, Token } from "@/types";
 import StrategyMessage from "@/components/Messages/Strategy";
-import Link from "next/link";
+import Link from "@/shims/next-link";
 
 export default function Home() {
   const [inputValue, setInputValue] = useState("");
@@ -246,9 +246,9 @@ export default function Home() {
   };
 
   return (
-    <div className="h-[calc(100vh-101px)] flex flex-col relative">
+    <div className="h-[calc(100vh-101px)] flex flex-col relative bg-background text-foreground">
       {/* Main Content */}
-      <div className="text-white flex-1 flex flex-col relative">
+      <div className="flex-1 flex flex-col relative">
         {/* Chat Area - Scrollable Content */}
         <div className="flex-1 max-h-[calc(100vh-101px-158px)] overflow-y-scroll">
           <div className="p-5 max-w-4xl mx-auto">
@@ -256,10 +256,10 @@ export default function Home() {
               <section className="space-y-8">
                 {!loggedIn ? (
                   <div className="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-lg rounded-2xl p-6">
-                    <h2 className="text-lg font-bold mb-3 text-white">
-                      👋 Welcome to Opto DeFi Bot
+                    <h2 className="text-lg font-bold mb-3">
+                      👋 Welcome to Alaba DeFi Bot
                     </h2>
-                    <p className="text-sm opacity-90 leading-relaxed text-white">
+                    <p className="text-sm opacity-90 leading-relaxed">
                       I&apos;m your DeFi investment copilot. You can build a
                       risk-diversified DeFi portfolio, or ask me anything about
                       DeFi investment.
@@ -269,7 +269,7 @@ export default function Home() {
                   <div className="flex justify-start">
                     <div className="flex items-start gap-3">
                       <div className="max-w-[70%] bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-lg rounded-2xl px-4 py-3">
-                        <p className="text-base opacity-90 leading-relaxed text-white">
+                        <p className="text-base opacity-90 leading-relaxed">
                           I&apos;m your DeFi investment copilot. You can build a
                           risk-diversified DeFi portfolio, or ask me anything
                           about DeFi investment.
@@ -300,8 +300,8 @@ export default function Home() {
                             key={idx}
                           >
                             <div className="flex items-start gap-3">
-                              <div className="max-w-[70%] bg-white/5 rounded-2xl px-4 py-3">
-                                <p className="text-base text-white/90 whitespace-pre-line">
+                            <div className="max-w-[70%] bg-foreground/5 rounded-2xl px-4 py-3">
+                                <p className="text-base opacity-90 whitespace-pre-line">
                                   {m.content}
                                 </p>
                               </div>
@@ -338,8 +338,8 @@ export default function Home() {
                             key={idx}
                           >
                             <div className="flex items-start gap-3">
-                              <div className="max-w-[80%] bg-white/5 rounded-2xl px-4 py-3">
-                                <div className="text-white/70 text-sm whitespace-pre-line">
+                              <div className="max-w-[80%] bg-foreground/5 rounded-2xl px-4 py-3">
+                                <div className="opacity-70 text-sm whitespace-pre-line">
                                   {m.content}
                                 </div>
                               </div>
@@ -363,8 +363,8 @@ export default function Home() {
                       return (
                         <div className="flex justify-start" key={idx}>
                           <div className="flex items-start gap-3">
-                            <div className="max-w-[80%] bg-white/5 rounded-2xl p-6">
-                              <div className="text-white/90 text-sm whitespace-pre-line">
+                            <div className="max-w-[80%] bg-foreground/5 rounded-2xl p-6">
+                              <div className="opacity-90 text-sm whitespace-pre-line">
                                 {m.content}
                               </div>
                             </div>
@@ -377,8 +377,8 @@ export default function Home() {
                     {isLoading && (
                       <div className="flex justify-start">
                         <div className="flex items-start gap-3">
-                          <div className="bg-white/5 rounded-2xl px-4 py-3">
-                            <div className="flex items-center text-white/90">
+                          <div className="bg-foreground/5 rounded-2xl px-4 py-3">
+                            <div className="flex items-center opacity-90">
                               <div className="flex space-x-1">
                                 <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce"></div>
                                 <div

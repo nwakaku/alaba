@@ -122,15 +122,7 @@
 }
 /* Base styles - 直接應用字體 */
 body {
-  background: linear-gradient(
-    to bottom,
-    #000001 10%,
-    #001b31 41%,
-    #1d6d87 69%,
-    #66aebf 100%
-  );
   min-height: 100vh;
-  color: white;
   font-family: var(--font-manrope), Manrope, system-ui, sans-serif;
 }
 

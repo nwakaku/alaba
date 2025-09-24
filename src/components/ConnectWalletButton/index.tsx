@@ -3,8 +3,8 @@
 import { usePrivy, useLogin, useLogout } from "@privy-io/react-auth";
 import { useDisconnect, useChainId } from "wagmi";
 import { useState, useRef, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
+import { useRouter } from "@/shims/next-navigation";
+import Image from "@/shims/image";
 
 export default function ConnectWalletButton() {
   const [address, setAddress] = useState<string | null>(null);

@@ -1,8 +1,6 @@
-import type { Metadata } from "next";
-import { Manrope, Montserrat } from "next/font/google";
-import "./globals.css";
 import Providers from "@/providers";
 import Header from "@/components/Header";
+import "./globals.css";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -17,25 +15,8 @@ const montserrat = Montserrat({
   weight: ["700"],
 });
 
-export const metadata: Metadata = {
-  title: "Opto - DeFi Investment Bot",
-  description:
-    "Your DeFi investment copilot. Build a risk-diversified DeFi portfolio.",
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={`${manrope.variable} ${montserrat.variable}`}>
-        <Providers>
-          <Header />
-          {children}
-        </Providers>
-      </body>
-    </html>
+    <>{children}</>
   );
 }
