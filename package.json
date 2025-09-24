@@ -1,0 +1,45 @@
+{
+  "name": "opto",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "start": "vite preview",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@privy-io/react-auth": "^2.21.3",
+    "@privy-io/wagmi": "^1.0.6",
+    "@radix-ui/react-select": "^2.2.6",
+    "@radix-ui/react-tooltip": "^1.2.8",
+    "@tanstack/react-query": "^5.85.3",
+    "@wagmi/core": "^2.19.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.539.0",
+    
+    "permissionless": "^0.2.54",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-router-dom": "^6.27.0",
+    "react-spinners": "^0.17.0",
+    "recharts": "2.15.4",
+    "tailwind-merge": "^3.3.1",
+    "viem": "^2.33.3",
+    "wagmi": "^2.16.3"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^5.4.10",
+    "tailwindcss": "^4",
+    "tw-animate-css": "^1.3.6",
+    "typescript": "^5"
+  }
+}
