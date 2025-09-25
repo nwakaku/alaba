@@ -1,0 +1,36 @@
+# DeFi Knowledge Base
+
+This file contains DeFi protocol information and strategies. Add your DeFi knowledge content here.
+
+## Popular DeFi Protocols
+
+### Lending Protocols
+- **Aave**: Decentralized lending protocol with high liquidity and competitive rates
+- **Compound**: Algorithmic money markets for lending and borrowing
+- **MakerDAO**: Decentralized credit platform for creating DAI stablecoin
+
+### DEXs (Decentralized Exchanges)
+- **Uniswap**: Automated market maker (AMM) for token swaps
+- **SushiSwap**: Community-driven DEX with additional features
+- **PancakeSwap**: BSC-based DEX with farming and staking
+
+### Yield Farming
+- **Yearn Finance**: Automated yield farming strategies
+- **Curve Finance**: Stablecoin-focused AMM with yield opportunities
+- **Balancer**: Automated portfolio manager and liquidity provider
+
+## DeFi Strategies
+
+### Basic Strategies
+1. **Liquidity Providing**: Add liquidity to pools and earn trading fees
+2. **Yield Farming**: Stake tokens to earn additional rewards
+3. **Lending**: Supply assets to earn interest
+4. **Borrowing**: Use collateral to borrow other assets
+
+### Risk Management
+- Always understand impermanent loss in AMMs
+- Diversify across multiple protocols
+- Monitor smart contract risks
+- Keep track of gas fees vs. potential returns
+
+Add more DeFi knowledge content as needed.

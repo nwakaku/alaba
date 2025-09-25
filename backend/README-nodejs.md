@@ -96,6 +96,23 @@ backend/
 └── package.json                # Dependencies and scripts
 ```
 
+## Migration from Python
+This Node.js version is a complete migration from the original Python/FastAPI backend with the following improvements:
+
+### Advantages of Node.js Version:
+1. **Unified Language**: Same language as frontend (JavaScript/TypeScript)
+2. **Better Performance**: Non-blocking I/O for concurrent requests
+3. **Easier Deployment**: Single runtime environment
+4. **Modern Async/Await**: Cleaner asynchronous code
+5. **Rich Ecosystem**: Extensive npm package ecosystem
+
+### Key Changes:
+- **FastAPI → Express.js**: Web framework migration
+- **Google Generative AI**: Updated to latest Node.js SDK
+- **Puppeteer**: Replaced Python web crawling with headless Chrome
+- **fs-extra**: Enhanced file system operations
+- **ES Modules**: Modern JavaScript module system
+
 ## Health Check
 - `GET /health` - Server health status
 
