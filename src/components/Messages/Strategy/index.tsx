@@ -86,16 +86,16 @@ export default function StrategyMessage({
       </div>
 
       {/* Pie Chart */}
-      <div className="mt-2 flex items-center gap-6">
-        <div className="w-44 h-44">
+      <div className="mt-2 flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+        <div className="w-32 h-32 sm:w-44 sm:h-44">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
                 data={data}
                 dataKey="value"
                 nameKey="name"
-                innerRadius={50}
-                outerRadius={80}
+                innerRadius={35}
+                outerRadius={55}
                 stroke="none"
               >
                 {data.map((entry, idx) => (
@@ -106,21 +106,21 @@ export default function StrategyMessage({
           </ResponsiveContainer>
         </div>
         {!editing ? (
-          <ul className="space-y-2 text-sm opacity-90">
+          <ul className="space-y-2 sm:space-y-3 text-xs sm:text-sm opacity-90">
             {data.map((d) => (
-              <li key={d.name} className="flex items-center gap-2">
+              <li key={d.name} className="flex items-center gap-1 sm:gap-2">
                 <span
                   className="inline-block w-3 h-3 rounded-sm"
                   style={{ backgroundColor: d.color }}
                 />
-                <span className="font-medium">{d.name}</span>
-                <span className="opacity-60">{d.value}%</span>
+                <span className="font-medium text-xs sm:text-sm">{d.name}</span>
+                <span className="opacity-60 text-xs sm:text-sm">{d.value}%</span>
                 <span>
-                  <Image src={d.icon} alt={d.name} width={20} height={20} />
+                  <Image src={d.icon} alt={d.name} width={16} height={16} className="w-4 h-4 sm:w-5 sm:h-5" />
                 </span>
                 <Tooltip>
                   <TooltipTrigger>
-                    <AlertCircle size={14} />
+                    <AlertCircle size={12} />
                   </TooltipTrigger>
                   <TooltipContent>
                     <div className="rounded-md bg-white text-black py-2 px-3 shadow-lg">
@@ -166,35 +166,35 @@ export default function StrategyMessage({
                       isNaN(v) ? 0 : Math.max(0, Math.min(100, v))
                     );
                   }}
-                  className="w-20 rounded-md bg-white/10 border border-white/20 px-2 py-1 text-white placeholder-white/40 focus:outline-none"
+                  className="w-20 rounded-md bg-muted border border-border px-2 py-1 text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/50"
                 />
-                <span className="text-white/60">%</span>
+                <span className="text-muted-foreground">%</span>
               </div>
             ))}
             <div className="text-xs">
               <span
                 className={
                   exceeds
-                    ? "text-red-400"
+                    ? "text-destructive"
                     : isExact
-                    ? "text-green-400"
-                    : "text-white/60"
+                    ? "text-green-500"
+                    : "text-muted-foreground"
                 }
               >
                 Total: {total}%
               </span>
               {total < 100 && (
-                <span className="ml-2 text-white/40">
+                <span className="ml-2 text-muted-foreground/70">
                   Remaining: {Math.max(0, remaining)}%
                 </span>
               )}
               {exceeds && (
-                <span className="ml-2 text-red-400">
+                <span className="ml-2 text-destructive">
                   Total cannot exceed 100%
                 </span>
               )}
               {!isExact && !exceeds && (
-                <span className="ml-2 text-white/60">
+                <span className="ml-2 text-muted-foreground">
                   Total must equal 100% to confirm
                 </span>
               )}
@@ -207,7 +207,7 @@ export default function StrategyMessage({
       {!editing ? (
         <div className="flex gap-2">
           <button
-            className="border border-[#5FECF9] rounded-lg flex items-center gap-2 bg-transparent text-[#5FECF9] px-4 py-2"
+            className="border border-[var(--accent)] rounded-lg flex items-center gap-2 bg-transparent text-[var(--accent)] px-4 py-2"
             onClick={() => {
               setDraft(data);
               setEditing(true);
@@ -218,7 +218,7 @@ export default function StrategyMessage({
             Change Percentage
           </button>
           <button
-            className="bg-[#5FECF9] flex items-center gap-2 text-black px-4 py-2 rounded-lg"
+            className="bg-[var(--accent)] flex items-center gap-2 text-[var(--accent-foreground)] px-4 py-2 rounded-lg"
             onClick={handleBuildPortfolio}
             disabled={isDisabled}
           >
@@ -240,8 +240,8 @@ export default function StrategyMessage({
           <button
             className={`px-4 py-2 rounded-lg ${
               isExact
-                ? "bg-[#5FECF9] text-black"
-                : "bg-[#5FECF9]/40 text-black/60 cursor-not-allowed"
+                ? "bg-[var(--accent)] text-[var(--accent-foreground)]"
+                : "bg-[var(--accent)]/40 text-black/60 cursor-not-allowed"
             }`}
             disabled={!isExact}
             onClick={() => {

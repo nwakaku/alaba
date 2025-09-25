@@ -59,55 +59,55 @@ export default function AnalyticsPage() {
   ];
 
   const chartData = [
-    { name: "USDC", percentage: Number(assets["1"]["value"]), color: "#4A9FE8" },
-    { name: "FLOW", percentage: Number(assets["2"]["value"]), color: "#4AE8D9" },
-    { name: "HBAR", percentage: Number(assets["4"]["value"]), color: "#000000" },
-    { name: "ETH", percentage: Number(assets["0"]["value"]), color: "#627EEA" },
-    { name: "USDF", percentage: Number(assets["3"]["value"]), color: "#2BB673" },
+    { name: "USDC", percentage: Number(assets["1"]["value"]), color: "var(--chart-1)" },
+    { name: "FLOW", percentage: Number(assets["2"]["value"]), color: "var(--chart-2)" },
+    { name: "HBAR", percentage: Number(assets["4"]["value"]), color: "var(--chart-3)" },
+    { name: "ETH", percentage: Number(assets["0"]["value"]), color: "var(--chart-4)" },
+    { name: "USDF", percentage: Number(assets["3"]["value"]), color: "var(--chart-5)" },
   ];
 
   return (
     <div className="bg-background text-foreground">
       {/* Main Layout */}
-      <div className="px-10 py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-6 sm:py-10">
         <div className="flex justify-center">
           {/* Portfolio Panel */}
           <div className="flex-1">
-            <div className="bg-foreground/5 border border-border rounded-2xl p-8 backdrop-blur-2xl shadow-xl">
+            <div className="bg-card/80 backdrop-blur-xl border border-border/50 rounded-2xl p-4 sm:p-8 shadow-xl">
               <div>
                 {/* Left Column and Chart Row */}
-                <div className="flex gap-16 mb-8 mt-8 ml-8 mr-8">
+                <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 mb-8 mt-4 sm:mt-8 mx-0 sm:ml-8 sm:mr-8">
                   {/* Left Column - Metrics and Actions */}
-                  <div className="flex flex-col gap-8 w-[45%]">
+                  <div className="flex flex-col gap-6 sm:gap-8 w-full lg:w-[45%]">
                     {/* Three Financial Metrics */}
-                    <div className="grid grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
                       <div>
-                        <div className="text-xs text-white/60 mb-2 flex items-center gap-2">
+                        <div className="text-xs text-muted-foreground mb-2 flex items-center gap-2">
                           Total Asset Value
-                          <Eye size={14} className="text-white/60" />
+                          <Eye size={14} className="text-muted-foreground" />
                         </div>
-                        <div className="text-xl font-bold">$4821.45</div>
+                        <div className="text-lg sm:text-xl font-bold text-foreground">$4821.45</div>
                       </div>
                       <div>
-                        <div className="text-xs text-white/60 mb-2 flex items-center gap-2">
+                        <div className="text-xs text-muted-foreground mb-2 flex items-center gap-2">
                           Total Position Value
-                          <Eye size={14} className="text-white/60" />
+                          <Eye size={14} className="text-muted-foreground" />
                         </div>
-                        <div className="text-xl font-bold">$4801.45</div>
+                        <div className="text-lg sm:text-xl font-bold text-foreground">$4801.45</div>
                       </div>
                       <div>
-                        <div className="text-xs text-white/60 mb-2 flex items-center gap-2">
+                        <div className="text-xs text-muted-foreground mb-2 flex items-center gap-2">
                           Total Profit
-                          <Eye size={14} className="text-white/60" />
+                          <Eye size={14} className="text-muted-foreground" />
                         </div>
-                        <div className="text-xl font-bold text-green-400">
+                        <div className="text-lg sm:text-xl font-bold text-chart-2">
                           +$2.2
                         </div>
                       </div>
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex gap-3">
+                    <div className="flex flex-col sm:flex-row gap-3">
                       {[
                         { icon: RefreshCw, label: "Bridge" },
                         { icon: ArrowDownToLine, label: "Deposit" },
@@ -117,12 +117,12 @@ export default function AnalyticsPage() {
                         return (
                           <button
                             key={index}
-                            className="flex flex-col items-center gap-2 px-6 py-3 bg-white/10 border border-white/20 rounded-xl hover:bg-white/15 transition-all cursor-pointer flex-1"
+                            className="flex flex-col items-center gap-2 px-4 sm:px-6 py-3 bg-muted/50 border border-border/50 rounded-xl hover:bg-muted/70 hover:border-accent/50 transition-all cursor-pointer flex-1"
                           >
                             <div className="w-8 h-8 flex items-center justify-center">
-                              <IconComponent size={24} className="text-white" />
+                              <IconComponent size={24} className="text-foreground" />
                             </div>
-                            <div className="text-xs text-white/80 font-medium">
+                            <div className="text-xs text-foreground/80 font-medium">
                               {stat.label}
                             </div>
                           </button>
@@ -132,9 +132,9 @@ export default function AnalyticsPage() {
                   </div>
 
                   {/* Chart and Legend Container */}
-                  <div className="flex items-center gap-12 w-[55%]">
+                  <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-12 w-full lg:w-[55%]">
                     {/* Donut Chart */}
-                    <div className="flex-shrink-0">
+                    <div className="flex-shrink-0 order-2 lg:order-1">
                       <DonutChart
                         data={chartData}
                         size={180}
@@ -143,18 +143,18 @@ export default function AnalyticsPage() {
                     </div>
 
                     {/* Asset Legend */}
-                    <div className="bg-white/3 backdrop-blur rounded-xl p-4 flex-1">
-                      <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-muted/30 backdrop-blur rounded-xl p-4 flex-1 order-1 lg:order-2 border border-border/30">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         {chartData.map((item, index) => (
                           <div key={index} className="flex items-center gap-2">
                             <div
                               className="w-3 h-3 rounded flex-shrink-0"
                               style={{ backgroundColor: item.color }}
                             ></div>
-                            <span className="text-xs text-white/80 font-medium flex-1">
+                            <span className="text-xs text-foreground/80 font-medium flex-1">
                               {item.name}
                             </span>
-                            <span className="text-xs text-white/80 font-medium">
+                            <span className="text-xs text-foreground/80 font-medium">
                               {item.percentage}%
                             </span>
                           </div>
@@ -166,21 +166,21 @@ export default function AnalyticsPage() {
               </div>
 
               {/* Tabs */}
-              <div className="mb-6 px-8">
-                <div className="flex border-b border-white/10">
+              <div className="mb-6 px-4 sm:px-8">
+                <div className="flex border-b border-border/50">
                   {["Assets", "Strategies", "Transactions"].map((tab) => (
                     <button
                       key={tab}
                       onClick={() => setActiveTab(tab)}
-                      className={`pb-3 text-sm font-semibold transition-colors relative flex-1 ${
+                      className={`pb-3 text-xs sm:text-sm font-semibold transition-colors relative flex-1 ${
                         activeTab === tab
-                          ? "text-white"
-                          : "text-white/60 hover:text-white/80"
+                          ? "text-foreground"
+                          : "text-muted-foreground hover:text-foreground/80"
                       }`}
                     >
                       {tab}
                       {activeTab === tab && (
-                        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white"></div>
+                        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent"></div>
                       )}
                     </button>
                   ))}
@@ -188,15 +188,15 @@ export default function AnalyticsPage() {
               </div>
 
               {/* Assets Table */}
-              <div className="px-8">
+              <div className="px-4 sm:px-8">
                 {/* Table Headers */}
-                <div className="grid grid-cols-4 gap-4 pb-3 mb-4 border-b border-white/10">
-                  <div className="text-xs text-white/60 font-medium">Coin</div>
-                  <div className="text-xs text-white/60 font-medium">Chain</div>
-                  <div className="text-xs text-white/60 font-medium">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 pb-3 mb-4 border-b border-border/50">
+                  <div className="text-xs text-muted-foreground font-medium">Coin</div>
+                  <div className="text-xs text-muted-foreground font-medium hidden sm:block">Chain</div>
+                  <div className="text-xs text-muted-foreground font-medium">
                     Amount
                   </div>
-                  <div className="text-xs text-white/60 font-medium">
+                  <div className="text-xs text-muted-foreground font-medium hidden sm:block">
                     Action
                   </div>
                 </div>
@@ -206,31 +206,31 @@ export default function AnalyticsPage() {
                   {assets.map((asset, index) => (
                     <div
                       key={index}
-                      className="grid grid-cols-4 gap-4 items-center py-3"
+                      className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 items-center py-3"
                     >
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2 sm:gap-3">
                         <Image
                           src={asset.icon}
                           alt={asset.symbol}
                           width={36}
                           height={36}
                         />
-                        <div className="text-sm font-semibold">
+                        <div className="text-xs sm:text-sm font-semibold text-foreground">
                           {asset.symbol}
                         </div>
                       </div>
-                      <div className="text-sm text-white/80">{asset.chain}</div>
+                      <div className="text-xs sm:text-sm text-foreground/80 hidden sm:block">{asset.chain}</div>
                       <div className="text-left">
-                        <div className="text-sm">{asset.amount}</div>
-                        <div className="text-xs text-white/60">
+                        <div className="text-xs sm:text-sm text-foreground">{asset.amount}</div>
+                        <div className="text-xs text-muted-foreground">
                           $ {asset.value}
                         </div>
                       </div>
-                      <div className="flex gap-4 items-center">
-                        <button className="py-2 bg-white text-black hover:bg-white/90 rounded-lg text-xs font-semibold transition-colors w-28 flex items-center justify-center">
+                      <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 items-stretch sm:items-center">
+                        <button className="py-2 bg-accent text-accent-foreground hover:bg-accent/90 rounded-lg text-xs font-semibold transition-colors w-full sm:w-28 flex items-center justify-center">
                           Deposit
                         </button>
-                        <button className="py-2 border border-white/20 hover:bg-white/10 rounded-lg text-xs font-semibold transition-colors w-28 flex items-center justify-center">
+                        <button className="py-2 border border-border hover:bg-muted/50 rounded-lg text-xs font-semibold transition-colors w-full sm:w-28 flex items-center justify-center text-foreground">
                           Withdraw
                         </button>
                       </div>

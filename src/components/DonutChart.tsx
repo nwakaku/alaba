@@ -36,7 +36,7 @@ export function DonutChart({ data, size = 180, strokeWidth = 30 }: DonutChartPro
   }, {} as ChartConfig)
 
   return (
-    <div className="text-white">
+    <div className="text-foreground">
       <ChartContainer
         config={chartConfig}
         className={`mx-auto aspect-square`}

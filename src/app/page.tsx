@@ -29,7 +29,7 @@ export default function Home() {
     {
       name: "Bonzo finance (Hedera)",
       value: 30,
-      color: "#4A64DC",
+      color: "var(--accent)",
       icon: "/crypto-icons/chains/296.svg",
       apy: 0.37,
       tvl: "$407",
@@ -40,7 +40,7 @@ export default function Home() {
     {
       name: "AAVE Lending",
       value: 20,
-      color: "#5FECF9",
+      color: "var(--chart-2)",
       icon: "/crypto-icons/ETH.png",
       apy: 75.31,
       tvl: "$2.39B",
@@ -51,7 +51,7 @@ export default function Home() {
     {
       name: "stable Kitty",
       value: 20,
-      color: "#9B8AFB",
+      color: "var(--chart-3)",
       icon: "/crypto-icons/chains/747.svg",
       apy: 4.43,
       tvl: "$921,643.06",
@@ -62,7 +62,7 @@ export default function Home() {
     {
       name: "Stader (Hedera)",
       value: 30,
-      color: "#3B82F6",
+      color: "var(--chart-4)",
       icon: "/crypto-icons/chains/296.svg",
       apy: 12,
       tvl: "$108.38K",
@@ -246,20 +246,20 @@ export default function Home() {
   };
 
   return (
-    <div className="h-[calc(100vh-101px)] flex flex-col relative bg-background text-foreground">
+    <div className="min-h-[calc(100vh-101px)] h-[calc(100vh-101px)] flex flex-col relative bg-background text-foreground">
       {/* Main Content */}
       <div className="flex-1 flex flex-col relative">
         {/* Chat Area - Scrollable Content */}
-        <div className="flex-1 max-h-[calc(100vh-101px-158px)] overflow-y-scroll">
-          <div className="p-5 max-w-4xl mx-auto">
-            <main className="space-y-20 pb-6">
+        <div className="flex-1 overflow-y-scroll">
+          <div className="p-3 sm:p-5 max-w-6xl mx-auto">
+            <main className="space-y-8 sm:space-y-20 pb-32">
               <section className="space-y-8">
                 {!loggedIn ? (
-                  <div className="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-lg rounded-2xl p-6">
-                    <h2 className="text-lg font-bold mb-3">
+                  <div className="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-lg rounded-2xl p-4 sm:p-6">
+                    <h2 className="text-base sm:text-lg font-bold mb-3">
                       👋 Welcome to Alaba DeFi Bot
                     </h2>
-                    <p className="text-sm opacity-90 leading-relaxed">
+                    <p className="text-xs sm:text-sm opacity-90 leading-relaxed">
                       I&apos;m your DeFi investment copilot. You can build a
                       risk-diversified DeFi portfolio, or ask me anything about
                       DeFi investment.
@@ -268,8 +268,8 @@ export default function Home() {
                 ) : (
                   <div className="flex justify-start">
                     <div className="flex items-start gap-3">
-                      <div className="max-w-[70%] bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-lg rounded-2xl px-4 py-3">
-                        <p className="text-base opacity-90 leading-relaxed">
+                      <div className="max-w-[85%] sm:max-w-[70%] bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-lg rounded-2xl px-3 sm:px-4 py-3">
+                        <p className="text-sm sm:text-base opacity-90 leading-relaxed">
                           I&apos;m your DeFi investment copilot. You can build a
                           risk-diversified DeFi portfolio, or ask me anything
                           about DeFi investment.
@@ -286,7 +286,7 @@ export default function Home() {
                       if (m.role === "user") {
                         return (
                           <div className="flex justify-end" key={idx}>
-                            <div className="max-w-[70%] bg-white text-black rounded-lg px-4 py-3 shadow">
+                            <div className="max-w-[85%] sm:max-w-[70%] bg-white text-black rounded-lg px-3 sm:px-4 py-3 shadow">
                               {m.content}
                             </div>
                           </div>
@@ -300,8 +300,8 @@ export default function Home() {
                             key={idx}
                           >
                             <div className="flex items-start gap-3">
-                            <div className="max-w-[70%] bg-foreground/5 rounded-2xl px-4 py-3">
-                                <p className="text-base opacity-90 whitespace-pre-line">
+                            <div className="max-w-[85%] sm:max-w-[70%] bg-foreground/5 rounded-2xl px-3 sm:px-4 py-3">
+                                <p className="text-sm sm:text-base opacity-90 whitespace-pre-line">
                                   {m.content}
                                 </p>
                               </div>
@@ -338,8 +338,8 @@ export default function Home() {
                             key={idx}
                           >
                             <div className="flex items-start gap-3">
-                              <div className="max-w-[80%] bg-foreground/5 rounded-2xl px-4 py-3">
-                                <div className="opacity-70 text-sm whitespace-pre-line">
+                              <div className="max-w-[90%] sm:max-w-[80%] bg-foreground/5 rounded-2xl px-3 sm:px-4 py-3">
+                                <div className="opacity-70 text-xs sm:text-sm whitespace-pre-line">
                                   {m.content}
                                 </div>
                               </div>
@@ -350,7 +350,7 @@ export default function Home() {
                             {/* Action buttons */}
                             <div className="flex gap-2 mt-3">
                               <Link href="/profile">
-                                <button className="bg-[#5FECF9] flex items-center gap-2 text-black px-4 py-2 rounded-lg">
+                                <button className="bg-[var(--accent)] flex items-center gap-2 text-[var(--accent-foreground)] px-4 py-2 rounded-lg">
                                   <ArrowUpRight size={15} />
                                   View Profile
                                 </button>
@@ -363,8 +363,8 @@ export default function Home() {
                       return (
                         <div className="flex justify-start" key={idx}>
                           <div className="flex items-start gap-3">
-                            <div className="max-w-[80%] bg-foreground/5 rounded-2xl p-6">
-                              <div className="opacity-90 text-sm whitespace-pre-line">
+                            <div className="max-w-[90%] sm:max-w-[80%] bg-foreground/5 rounded-2xl p-4 sm:p-6">
+                              <div className="opacity-90 text-xs sm:text-sm whitespace-pre-line">
                                 {m.content}
                               </div>
                             </div>
@@ -400,12 +400,12 @@ export default function Home() {
 
                 {/* Login Steps - Only show when not logged in and not in conversation */}
                 {!hasSent && !loggedIn && (
-                  <div className="grid grid-cols-2 gap-5">
-                    <div className="glass-card p-5 cursor-pointer hover:scale-[1.02] transition-transform group relative">
-                      <div className="text-xs font-semibold text-white/60 uppercase tracking-wide mb-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                    <div className="glass-card p-4 sm:p-5 cursor-pointer hover:scale-[1.02] transition-transform group relative">
+                      <div className="text-xs font-semibold text-white/60 uppercase tracking-wide mb-2 sm:mb-3">
                         Step 1
                       </div>
-                      <div className="text-base font-semibold leading-relaxed mb-5 text-white">
+                      <div className="text-sm sm:text-base font-semibold leading-relaxed mb-4 sm:mb-5 text-white">
                         Create an account, or login existing account
                       </div>
                       <div className="absolute bottom-5 right-5">
@@ -427,11 +427,11 @@ export default function Home() {
                       </div>
                     </div>
 
-                    <div className="glass-card p-5 cursor-pointer hover:scale-[1.02] transition-transform group relative">
-                      <div className="text-xs font-semibold text-white/60 uppercase tracking-wide mb-3">
+                    <div className="glass-card p-4 sm:p-5 cursor-pointer hover:scale-[1.02] transition-transform group relative">
+                      <div className="text-xs font-semibold text-white/60 uppercase tracking-wide mb-2 sm:mb-3">
                         Step 2
                       </div>
-                      <div className="text-base font-semibold leading-relaxed mb-5 text-white">
+                      <div className="text-sm sm:text-base font-semibold leading-relaxed mb-4 sm:mb-5 text-white">
                         Create a Cross-Chain, Multi-Protocols Yield Portfolio
                       </div>
                       <div className="absolute bottom-5 right-5">
@@ -459,30 +459,78 @@ export default function Home() {
                 {!hasSent && loggedIn && (
                   <div className="flex justify-start">
                     <div className="flex items-start gap-3">
-                      <div className="max-w-[70%] w-full">
-                        <div className="grid grid-cols-2 gap-5">
+                      <div className="max-w-[85%] sm:max-w-[70%] w-full">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                          {/* Multi-Strategies Card */}
                           <div
                             onClick={() => handleStrategyClick("multi")}
-                            className="glass-card p-5 cursor-pointer hover:scale-[1.02] transition-transform group relative disabled:opacity-50"
+                            className="group relative bg-card/80 backdrop-blur-xl border border-border/50 rounded-2xl p-6 cursor-pointer hover:scale-[1.02] hover:shadow-2xl hover:shadow-accent/10 transition-all duration-300 disabled:opacity-50 overflow-hidden"
                           >
-                            <div className="text-xs font-semibold text-white/60 uppercase tracking-wide mb-3">
-                              MULTI STRATEGIES
+                            {/* Background gradient overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-chart-2/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            
+                            {/* Content */}
+                            <div className="relative z-10">
+                              <div className="flex items-center justify-between mb-4">
+                                <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                                  MULTI STRATEGIES
+                                </div>
+                                <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    className="text-accent"
+                                  >
+                                    <path
+                                      d="M12 2L2 7L12 12L22 7L12 2Z"
+                                      stroke="currentColor"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                    <path
+                                      d="M2 17L12 22L22 17"
+                                      stroke="currentColor"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                    <path
+                                      d="M2 12L12 17L22 12"
+                                      stroke="currentColor"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                  </svg>
+                                </div>
+                              </div>
+                              
+                              <div className="text-lg sm:text-xl font-bold text-foreground leading-tight mb-6">
+                                Create a Cross-Chain, Multi-Protocols Yield Portfolio
+                              </div>
+                              
+                              <div className="text-sm text-muted-foreground leading-relaxed mb-6">
+                                Diversify across multiple chains and protocols for optimal risk-adjusted returns
+                              </div>
+                              
+                             
                             </div>
-                            <div className="text-base font-semibold leading-relaxed mb-5 text-white">
-                              Create a Cross-Chain, Multi-Protocols Yield
-                              Portfolio
-                            </div>
-                            <div className="absolute bottom-5 right-5">
+                            
+                            {/* Arrow icon */}
+                            <div className="absolute bottom-6 right-6 opacity-60 group-hover:opacity-100 transition-opacity">
                               <svg
-                                width="24"
-                                height="24"
+                                width="20"
+                                height="20"
                                 viewBox="0 0 24 24"
                                 fill="none"
-                                className="opacity-80 group-hover:opacity-100 transition-opacity"
+                                className="text-foreground"
                               >
                                 <path
                                   d="M7 17L17 7M17 7H7M17 7V17"
-                                  stroke="white"
+                                  stroke="currentColor"
                                   strokeWidth="2"
                                   strokeLinecap="round"
                                   strokeLinejoin="round"
@@ -491,27 +539,69 @@ export default function Home() {
                             </div>
                           </div>
 
+                          {/* Single Strategy Card */}
                           <div
                             onClick={() => handleStrategyClick("single")}
-                            className="glass-card p-5 cursor-pointer hover:scale-[1.02] transition-transform group relative disabled:opacity-50"
+                            className="group relative bg-card/80 backdrop-blur-xl border border-border/50 rounded-2xl p-6 cursor-pointer hover:scale-[1.02] hover:shadow-2xl hover:shadow-chart-2/10 transition-all duration-300 disabled:opacity-50 overflow-hidden"
                           >
-                            <div className="text-xs font-semibold text-white/60 uppercase tracking-wide mb-3">
-                              SINGLE STRATEGY
+                            {/* Background gradient overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-chart-2/5 via-transparent to-chart-3/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            
+                            {/* Content */}
+                            <div className="relative z-10">
+                              <div className="flex items-center justify-between mb-4">
+                                <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                                  SINGLE STRATEGY
+                                </div>
+                                <div className="w-8 h-8 rounded-full bg-chart-2/20 flex items-center justify-center">
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    className="text-chart-2"
+                                  >
+                                    <path
+                                      d="M9 12L11 14L15 10"
+                                      stroke="currentColor"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                    <path
+                                      d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                                      stroke="currentColor"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                  </svg>
+                                </div>
+                              </div>
+                              
+                              <div className="text-lg sm:text-xl font-bold text-foreground leading-tight mb-6">
+                                Explore Single DeFi Strategy
+                              </div>
+                              
+                              <div className="text-sm text-muted-foreground leading-relaxed mb-6">
+                                Focus on one protocol or strategy for concentrated exposure and learning
+                              </div>
+                              
+                              
                             </div>
-                            <div className="text-base font-semibold leading-relaxed mb-5 text-white">
-                              Explore single DeFi Strategy
-                            </div>
-                            <div className="absolute bottom-5 right-5">
+                            
+                            {/* Arrow icon */}
+                            <div className="absolute bottom-6 right-6 opacity-60 group-hover:opacity-100 transition-opacity">
                               <svg
-                                width="24"
-                                height="24"
+                                width="20"
+                                height="20"
                                 viewBox="0 0 24 24"
                                 fill="none"
-                                className="opacity-80 group-hover:opacity-100 transition-opacity"
+                                className="text-foreground"
                               >
                                 <path
                                   d="M7 17L17 7M17 7H7M17 7V17"
-                                  stroke="white"
+                                  stroke="currentColor"
                                   strokeWidth="2"
                                   strokeLinecap="round"
                                   strokeLinejoin="round"
@@ -532,8 +622,8 @@ export default function Home() {
         </div>
 
         {/* Fixed Chat Section at Bottom */}
-        <div className="absolute bottom-0 left-0 right-0">
-          <div className="max-w-4xl mx-auto p-5">
+        <div className="absolute bottom-0 left-0 right-0 bg-background">
+          <div className="max-w-4xl mx-auto p-3 sm:p-5">
             {/* New Chat button - above input container when conversation exists */}
             {hasSent && (
               <div className="flex justify-center mb-4">
@@ -548,7 +638,7 @@ export default function Home() {
             )}
 
             <div
-              className={`rounded-lg p-4 flex items-center justify-between ${
+              className={`rounded-lg p-3 sm:p-4 flex items-center justify-between ${
                 loggedIn ? "bg-white" : "bg-gray-300"
               }`}
             >
@@ -570,7 +660,7 @@ export default function Home() {
                     ? "Loading..."
                     : "Ask me anything about DeFi investment"
                 }
-                className="flex-1 bg-transparent outline-none text-black placeholder-gray-500 text-sm"
+                className="flex-1 bg-transparent outline-none text-black placeholder-gray-500 text-xs sm:text-sm"
               />
               <button
                 onClick={handleSend}

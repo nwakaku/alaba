@@ -85,30 +85,30 @@ const AmountInput = ({
 
   return (
     <div>
-      <div className="bg-gray-100 rounded-md border border-gray-300">
+      <div className="bg-muted rounded-md border border-border">
         <div className="flex items-center w-full gap-2">
           <input
             type="text"
             name="amount"
             id="amount"
-            className="flex-1 min-w-0 bg-transparent text-gray-500 block px-4 py-3 text-lg font-semibold focus:outline-none focus:ring-0 focus:border-0 placeholder:text-gray-500"
+            className="flex-1 min-w-0 bg-transparent text-foreground block px-3 sm:px-4 py-2 sm:py-3 text-base sm:text-lg font-semibold focus:outline-none focus:ring-0 focus:border-0 placeholder:text-muted-foreground"
             placeholder="0.00"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
           />
-          <div className="shrink-0 md:min-w-[100px]">
+          <div className="shrink-0 sm:min-w-[100px]">
             <Select value={currency.name} onValueChange={handleCurrencyChange}>
-              <SelectTrigger className="text-black text-sm md:text-lg bg-transparent border-none shadow-none px-2 md:px-4 py-2 font-semibold hover:bg-gray-200 focus:ring-0 focus:ring-offset-0">
-                <div className="flex items-center gap-1 md:gap-2">
+              <SelectTrigger className="text-foreground text-xs sm:text-sm md:text-lg bg-transparent border-none shadow-none px-2 sm:px-4 py-2 font-semibold hover:bg-muted/50 focus:ring-0 focus:ring-offset-0">
+                <div className="flex items-center gap-1 sm:gap-2">
                   <SelectValue placeholder="Select asset" />
                 </div>
               </SelectTrigger>
-              <SelectContent className="border-none">
+              <SelectContent className="border border-border bg-card">
                 {[ETH, USDC].map((token) => (
                   <SelectItem
                     key={token.name}
                     value={token.name}
-                    className="cursor-pointer"
+                    className="cursor-pointer hover:bg-muted"
                   >
                     <div className="flex items-center gap-2">
                       <Image
@@ -157,7 +157,7 @@ const AmountInput = ({
       {/* Invest button */}
       <button
         type="submit"
-        className="w-full flex justify-center mt-3 py-3 px-4 border border-transparent rounded-md shadow-sm font-medium text-white bg-[#5FECF9] hover:bg-[#4A64DC] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+        className="w-full flex justify-center mt-3 py-3 px-4 border border-transparent rounded-md shadow-sm font-medium text-[var(--accent-foreground)] bg-[var(--accent)] hover:brightness-95 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50"
       >
         Invest
       </button>

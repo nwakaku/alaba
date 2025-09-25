@@ -68,7 +68,7 @@ export default function ConnectWalletButton() {
   return (
     <button
       onClick={handleButtonOnClick}
-      className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#020102]/60 via-[#2A1F3E]/60 via-[#5888C4]/60 to-[#020102]/60 border-2 border-white/20 border-solid rounded-2xl hover:opacity-90 transition-all"
+      className="flex items-center gap-2 px-6 py-2.5 bg-accent/20 border-2 border-accent/30 border-solid rounded-2xl hover:bg-accent/30 hover:border-accent/50 transition-all"
     >
       {buttonReady ? (
         loggedIn ? (
@@ -79,19 +79,19 @@ export default function ConnectWalletButton() {
               width={20}
               height={20}
             />
-            <span className="font-semibold text-sm tracking-wide text-white">
+            <span className="font-semibold text-sm tracking-wide text-foreground">
               {user?.wallet?.address.slice(0, 6) +
                 "..." +
                 user?.wallet?.address.slice(-4)}
             </span>
           </>
         ) : (
-          <span className="font-semibold text-sm tracking-wide uppercase text-white">
+          <span className="font-semibold text-sm tracking-wide uppercase text-foreground">
             Signup / Login
           </span>
         )
       ) : (
-        <span className="font-semibold text-sm tracking-wide text-white">
+        <span className="font-semibold text-sm tracking-wide text-foreground">
           Loading...
         </span>
       )}

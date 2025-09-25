@@ -1,3 +1,4 @@
+import { Manrope, Montserrat } from "next/font/google";
 import Providers from "@/providers";
 import Header from "@/components/Header";
 import "./globals.css";
@@ -17,6 +18,13 @@ const montserrat = Montserrat({
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <>{children}</>
+    <html lang="en" className={`${manrope.variable} ${montserrat.variable}`}>
+      <body className="font-sans">
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
+      </body>
+    </html>
   );
 }
