@@ -5,23 +5,35 @@ import Image from "@/shims/image";
 import { usePrivy } from "@privy-io/react-auth";
 import { ArrowUpRight, RotateCcw } from "lucide-react";
 import InvestmentForm from "@/components/InvestmentForm";
+import SwapDepositButton from "@/components/SwapDepositButton";
 import { Message, Token } from "@/types";
 import StrategyMessage from "@/components/Messages/Strategy";
 import Link from "@/shims/next-link";
+import { apiService } from "@/lib/api";
+import { useBalances } from "@/hooks/useBalances";
 
 export default function Home() {
   const [inputValue, setInputValue] = useState("");
   const { ready: privyReady, authenticated, user } = usePrivy();
+  const { balanceState, refreshBalances } = useBalances();
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [hasSent, setHasSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [swapSuccess, setSwapSuccess] = useState(false);
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     // Smoothly scroll to the bottom when messages update or loading changes
     bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages, isLoading]);
+
+  // Load balances when user logs in
+  useEffect(() => {
+    if (user?.wallet?.address) {
+      refreshBalances(user.wallet.address);
+    }
+  }, [user?.wallet?.address, refreshBalances]);
 
   const loggedIn = privyReady && authenticated && user?.wallet?.address;
 
@@ -49,15 +61,15 @@ export default function Home() {
         "Lend USDC on Aave Sepolia for high yield from borrowing demand and incentives; low protocol risk.",
     },
     {
-      name: "stable Kitty",
+      name: "Bonzo Finance",
       value: 20,
       color: "var(--chart-3)",
-      icon: "/crypto-icons/chains/747.svg",
+      icon: "/crypto-icons/chains/296.svg",
       apy: 4.43,
       tvl: "$921,643.06",
       risk: "Medium",
       description:
-        "Deposit WFLOW on StableKitty for modest returns from fees and emissions; medium protocol risk.",
+        "Deposit HBARX on Bonzo Finance for modest returns from fees and emissions; medium protocol risk.",
     },
     {
       name: "Stader (Hedera)",
@@ -171,7 +183,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="flex items-center justify-between p-3">
-                <div className="text-white/90">Stable Kitty</div>
+                <div className="text-white/90">Bonzo Finance</div>
                 <div className="flex items-center gap-2">
                   <span className="text-xs px-2 py-1 rounded-md bg-[#9B8AFB]/20 text-[#9B8AFB] font-medium">
                     20%
@@ -197,7 +209,7 @@ export default function Home() {
     setIsLoading(false);
   }
 
-  const handleSend = () => {
+  const handleSend = async () => {
     const text = inputValue.trim();
     if (!text || !loggedIn || isLoading) return;
 
@@ -210,39 +222,37 @@ export default function Home() {
     setInputValue("");
     setIsLoading(true);
 
-    // Send to backend and render AI response
-    const url = `${import.meta.env.VITE_BACKEND_URL}/defiInfo`;
-    fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ input_text: text }),
-    })
-      .then(async (res) => {
-        if (!res.ok) {
-          const errText = await res.text().catch(() => "");
-          throw new Error(errText || `Request failed with ${res.status}`);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        // Expecting a string content; fallback to stringify
-        const content = data.result;
+    try {
+      // Use the new API service with user ID
+      const response = await apiService.getDeFiInfo(text, user?.wallet?.address);
+      
+      if (response.success && response.data?.result) {
         setMessages((prev: Message[]) => [
           ...prev,
-          { role: "assistant", content },
+          { role: "assistant", content: response.data.result },
         ]);
-      })
-      .catch((err: unknown) => {
-        const message = err instanceof Error ? err.message : String(err);
+      } else {
         setMessages((prev: Message[]) => [
           ...prev,
           {
             role: "assistant",
-            content: `There was an error contacting the backend.\n${message}`,
+            content: `I apologize, but I encountered an error: ${response.error || "Unknown error occurred"}. Please try again or rephrase your question.`,
           },
         ]);
-      })
-      .finally(() => setIsLoading(false));
+      }
+    } catch (error) {
+      console.error("Error in handleSend:", error);
+      const message = error instanceof Error ? error.message : "Unknown error occurred";
+      setMessages((prev: Message[]) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: `I'm sorry, but I'm having trouble connecting to the backend right now. Error: ${message}. Please try again in a moment.`,
+        },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -266,16 +276,50 @@ export default function Home() {
                     </p>
                   </div>
                 ) : (
-                  <div className="flex justify-start">
-                    <div className="flex items-start gap-3">
-                      <div className="max-w-[85%] sm:max-w-[70%] bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-lg rounded-2xl px-3 sm:px-4 py-3">
-                        <p className="text-sm sm:text-base opacity-90 leading-relaxed">
-                          I&apos;m your DeFi investment copilot. You can build a
-                          risk-diversified DeFi portfolio, or ask me anything
-                          about DeFi investment.
-                        </p>
+                  <div className="space-y-4">
+                    <div className="flex justify-start">
+                      <div className="flex items-start gap-3">
+                        <div className="max-w-[85%] sm:max-w-[70%] bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-lg rounded-2xl px-3 sm:px-4 py-3">
+                          <p className="text-sm sm:text-base opacity-90 leading-relaxed">
+                            I&apos;m your DeFi investment copilot. You can build a
+                            risk-diversified DeFi portfolio, or ask me anything
+                            about DeFi investment.
+                          </p>
+                        </div>
                       </div>
                     </div>
+
+                    {/* Balance Display */}
+                    {balanceState.balances && Object.keys(balanceState.balances).length > 0 && (
+                      <div className="flex justify-start">
+                        <div className="max-w-[85%] sm:max-w-[70%] bg-gradient-to-r from-green-500/10 to-green-400/5 backdrop-blur-lg rounded-2xl px-3 sm:px-4 py-3 border border-green-500/20">
+                          <div className="text-sm font-semibold text-green-400 mb-2">💰 Your Current Balances</div>
+                          <div className="space-y-1">
+                            {Object.entries(balanceState.balances).map(([token, balance]) => (
+                              <div key={token} className="flex justify-between text-xs">
+                                <span className="text-green-300">{token}:</span>
+                                <span className="text-green-100">{balance.toFixed(4)}</span>
+                              </div>
+                            ))}
+                          </div>
+                          {balanceState.lastUpdated && (
+                            <div className="text-xs text-green-300/70 mt-2">
+                              Last updated: {balanceState.lastUpdated.toLocaleTimeString()}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {balanceState.error && (
+                      <div className="flex justify-start">
+                        <div className="max-w-[85%] sm:max-w-[70%] bg-gradient-to-r from-red-500/10 to-red-400/5 backdrop-blur-lg rounded-2xl px-3 sm:px-4 py-3 border border-red-500/20">
+                          <div className="text-sm text-red-400">
+                            ⚠️ Error loading balances: {balanceState.error}
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -348,9 +392,19 @@ export default function Home() {
                             {/* Final Content */}
 
                             {/* Action buttons */}
-                            <div className="flex gap-2 mt-3">
+                            <div className="flex flex-col sm:flex-row gap-3 mt-4">
+                              <SwapDepositButton
+                                onSuccess={(result) => {
+                                  setSwapSuccess(true);
+                                  console.log("Swap successful:", result);
+                                }}
+                                onError={(error) => {
+                                  console.error("Swap error:", error);
+                                }}
+                                className="flex-1"
+                              />
                               <Link href="/profile">
-                                <button className="bg-[var(--accent)] flex items-center gap-2 text-[var(--accent-foreground)] px-4 py-2 rounded-lg">
+                                <button className="bg-[var(--accent)] flex items-center gap-2 text-[var(--accent-foreground)] px-4 py-2 rounded-lg hover:bg-[var(--accent)]/90 transition-colors">
                                   <ArrowUpRight size={15} />
                                   View Profile
                                 </button>

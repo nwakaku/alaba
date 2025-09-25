@@ -1,5 +1,5 @@
 import { createConfig } from "@privy-io/wagmi";
-import { sepolia, flowMainnet } from "viem/chains";
+import { sepolia, hedera } from "viem/chains";
 import { http } from "wagmi";
 
 export const ALCHEMY_API_KEY = import.meta.env.VITE_ALCHEMY_API_KEY as
@@ -7,13 +7,13 @@ export const ALCHEMY_API_KEY = import.meta.env.VITE_ALCHEMY_API_KEY as
   | undefined;
 
 export const wagmiConfig = createConfig({
-  chains: [sepolia, flowMainnet],
+  chains: [sepolia, hedera],
   transports: {
     [sepolia.id]: http(
       `https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`
     ),
-    [flowMainnet.id]: http(
-      `https://flow-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`
+    [hedera.id]: http(
+      `https://testnet.hashio.io/api`
     ),
   },
 });

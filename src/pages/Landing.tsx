@@ -108,7 +108,7 @@ export default function Landing() {
             <div className="absolute bottom-6 left-6 right-6 backdrop-blur-xl bg-card/80 rounded-xl border border-border p-4">
               <div className="text-sm text-foreground/80">AI Portfolio Preview</div>
               <div className="mt-2 grid grid-cols-4 gap-2 text-xs">
-                {[{n:"AAVE",p:20},{n:"HBARX",p:30},{n:"FLOW",p:20},{n:"Stader",p:30}].map((x)=> (
+                {[{n:"AAVE",p:20},{n:"HBARX",p:30},{n:"Bonzo",p:20},{n:"Stader",p:30}].map((x)=> (
                   <div key={x.n} className="bg-muted rounded-md p-2 text-center">
                     <div className="font-semibold text-foreground">{x.n}</div>
                     <div className="text-muted-foreground">{x.p}%</div>
@@ -208,7 +208,7 @@ export default function Landing() {
           </div>
           <p className="text-muted-foreground text-xs sm:text-sm mb-4">Diversified allocations with adjustable percentages and risk visibility.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 text-xs sm:text-sm">
-            {[{n:"Bonzo Finance",v:30,c:"var(--accent)"},{n:"AAVE Lending",v:20,c:"var(--chart-2)"},{n:"Stable Kitty",v:20,c:"var(--chart-3)"},{n:"Stader",v:30,c:"var(--chart-4)"}].map((x)=> (
+            {[{n:"Bonzo Finance",v:30,c:"var(--accent)"},{n:"AAVE Lending",v:20,c:"var(--chart-2)"},{n:"HBARX Staking",v:20,c:"var(--chart-3)"},{n:"Stader",v:30,c:"var(--chart-4)"}].map((x)=> (
               <div key={x.n} className="rounded-lg p-2 sm:p-3 border border-border bg-muted/50" style={{borderLeftColor: x.c, borderLeftWidth: '3px'}}>
                 <div className="font-medium text-foreground">{x.n}</div>
                 <div className="text-muted-foreground">{x.v}%</div>
@@ -240,7 +240,7 @@ export default function Landing() {
         <div className="relative overflow-hidden">
           <div className="flex items-center gap-6 animate-[scroll_20s_linear_infinite] will-change-transform">
             {new Array(2).fill(0).flatMap((_,i)=>[
-              "Aave","Hedera","Flow","Base","Polygon","WalletConnect","Coinbase","MetaMask","Uniswap","Chainlink"
+              "Aave","Hedera","Ethereum","Base","Polygon","WalletConnect","Coinbase","MetaMask","Uniswap","Chainlink"
             ].map((p,idx)=>(
               <div key={`${i}-${idx}`} className="h-12 w-40 rounded-xl border border-border bg-foreground/5 flex items-center justify-center opacity-80 text-sm shrink-0">
                 {p}

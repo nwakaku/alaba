@@ -8,6 +8,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { apiService } from "@/lib/api";
+import { usePrivy } from "@privy-io/react-auth";
 
 export default function StrategyMessage({
   message,
@@ -18,6 +20,7 @@ export default function StrategyMessage({
   pieData: StrategyPieChartData[];
   onSubmit: (data: string, stage: string) => void;
 }) {
+  const { user } = usePrivy();
   const [isDisabled, setIsDisabled] = useState(false);
   const [editing, setEditing] = useState(false);
   const [data, setData] = useState(pieData);
@@ -45,20 +48,13 @@ export default function StrategyMessage({
     setExecutionResult(null);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/execute-swap`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await apiService.executeSwap(user?.wallet?.address);
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to execute swap script");
+      if (!response.success) {
+        throw new Error(response.error || "Failed to execute swap script");
       }
 
-      setExecutionResult(data.message + "\n" + data.output);
+      setExecutionResult(response.data?.message + "\n" + response.data?.output);
       onSubmit("", "end");
       setIsDisabled(true);
     } catch (error: unknown) {

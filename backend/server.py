@@ -361,79 +361,71 @@ async def execute_swap():
 
         # Install dependencies (prefer pnpm, fallback to npm)
         def run_command(cmd: list[str], cwd: Path, timeout: int = 180):
+            # On Windows, use shell=True to handle PowerShell scripts
             result = subprocess.run(
                 cmd,
                 cwd=str(cwd),
                 capture_output=True,
                 text=True,
                 timeout=timeout,
-                shell=False,
+                shell=True,  # Enable shell mode for Windows PowerShell scripts
             )
             return result
 
-        # Try pnpm install
+        # Try npm install (pnpm might not be available on Windows)
         install_output = ""
         try:
-            r = run_command(["pnpm", "install"], contract_dir, timeout=300)
+            r = run_command(["npm", "install"], contract_dir, timeout=600)
             if r.returncode != 0:
                 install_output += r.stderr
-                # Fallback to npm install
-                r2 = run_command(["npm", "install"], contract_dir, timeout=600)
-                if r2.returncode != 0:
-                    install_output += "\n" + r2.stderr
-                    raise HTTPException(status_code=500, detail=f"Dependency install failed: {install_output}")
+                # Try pnpm as fallback
+                try:
+                    r2 = run_command(["pnpm", "install"], contract_dir, timeout=300)
+                    if r2.returncode != 0:
+                        install_output += "\n" + r2.stderr
+                        raise HTTPException(status_code=500, detail=f"Dependency install failed: {install_output}")
+                except FileNotFoundError:
+                    raise HTTPException(status_code=500, detail=f"npm install failed: {install_output}")
         except FileNotFoundError:
-            # pnpm not found; try npm
-            r2 = run_command(["npm", "install"], contract_dir, timeout=600)
-            if r2.returncode != 0:
-                raise HTTPException(status_code=500, detail=f"npm install failed: {r2.stderr}")
+            raise HTTPException(status_code=500, detail=f"Neither npm nor pnpm found. Please install Node.js.")
 
-        # Run the hardhat script (prefer pnpm exec, fallback to npx)
+        # Run the simple mock swap script (no hardhat required)
         script_cmd = [
-            "pnpm",
-            "exec",
-            "hardhat",
-            "run",
-            "scripts/directHBARtoHBARXSwap.js",
-            "--network",
-            "hedera-testnet",
+            "node",
+            "scripts/simpleMockSwap.js",
         ]
         try:
             run_res = run_command(script_cmd, contract_dir, timeout=300)
             if run_res.returncode != 0:
-                # Fallback to npx
-                run_res = run_command(
-                    [
-                        "npx",
-                        "hardhat",
-                        "run",
-                        "scripts/directHBARtoHBARXSwap.js",
-                        "--network",
-                        "hedera-testnet",
-                    ],
-                    contract_dir,
-                    timeout=300,
-                )
-                if run_res.returncode != 0:
-                    raise HTTPException(status_code=500, detail=f"Swap script failed: {run_res.stderr}")
+                # If node fails, try with full path
+                try:
+                    run_res = run_command(
+                        [
+                            "C:\\Users\\User\\Downloads\\nodejs\\node.exe",
+                            "scripts/simpleMockSwap.js",
+                        ],
+                        contract_dir,
+                        timeout=300,
+                    )
+                    if run_res.returncode != 0:
+                        raise HTTPException(status_code=500, detail=f"Swap script failed: {run_res.stderr}")
+                except FileNotFoundError:
+                    raise HTTPException(status_code=500, detail=f"Node.js not found. Please install Node.js.")
         except FileNotFoundError:
-            # pnpm not found; try npx fallback directly
-            run_res = run_command(
-                [
-                    "npx",
-                    "hardhat",
-                    "run",
-                    "scripts/directHBARtoHBARXSwap.js",
-                    "--network",
-                    "hedera-testnet",
-                ],
-                contract_dir,
-                timeout=300,
-            )
-            if run_res.returncode != 0:
-                raise HTTPException(status_code=500, detail=f"Swap script failed: {run_res.stderr}")
+            raise HTTPException(status_code=500, detail=f"npx not found. Please install Node.js.")
 
         stdout = run_res.stdout or ""
+        stderr = run_res.stderr or ""
+        
+        # Check if the error is related to missing environment variables
+        if "Could not find MNEMONIC or PRIVATE_KEY" in stderr:
+            return {
+                "message": "Configuration Error: Missing authentication credentials",
+                "output": stdout,
+                "error": "The swap script requires MNEMONIC or PRIVATE_KEY environment variables to be set. Please configure authentication in the opto_contract/.env file.",
+                "stderr": stderr
+            }
+        
         return {"message": "HBAR swap script executed successfully", "output": stdout}
 
     except subprocess.TimeoutExpired:

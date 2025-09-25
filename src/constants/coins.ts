@@ -1,5 +1,5 @@
 import { Token } from "@/types";
-import { sepolia, hedera, flowMainnet } from "viem/chains";
+import { sepolia, hedera } from "viem/chains";
 
 export const USDC = {
   name: "USDC",
@@ -9,7 +9,6 @@ export const USDC = {
   chains: {
     [sepolia.id]: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
     [hedera.id]: "0x000000000000000000000000000000000006f89a",
-    [flowMainnet.id]: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
   },
 } as const satisfies Token;
 
@@ -21,7 +20,6 @@ export const ETH = {
   chains: {
     [sepolia.id]: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
     [hedera.id]: "0x000000000000000000000000000000000006f89a",
-    [flowMainnet.id]: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
   },
 } as const satisfies Token;
 

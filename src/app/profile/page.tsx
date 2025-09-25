@@ -1,11 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "@/shims/next-navigation";
+import { usePrivy } from "@privy-io/react-auth";
 import Image from "@/shims/image";
 import CryptoIcon from "@/components/CryptoIcon";
 import { DonutChart } from "@/components/DonutChart";
-import { RefreshCw, ArrowDownToLine, ArrowUpFromLine, Eye } from "lucide-react";
+import { RefreshCw, ArrowDownToLine, ArrowUpFromLine, Eye, Loader2 } from "lucide-react";
+import { useBalances } from "@/hooks/useBalances";
+import SwapDepositButton from "@/components/SwapDepositButton";
+import DebugPanel from "@/components/DebugPanel";
 
 interface Asset {
   symbol: string;
@@ -17,10 +21,47 @@ interface Asset {
 
 export default function AnalyticsPage() {
   const router = useRouter();
+  const { user } = usePrivy();
+  const { balanceState, refreshBalances } = useBalances();
   const [activeTab, setActiveTab] = useState("Assets");
   const [inputValue, setInputValue] = useState("");
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const assets: Asset[] = [
+  // Load balances when component mounts or user changes
+  useEffect(() => {
+    if (user?.wallet?.address) {
+      refreshBalances(user.wallet.address);
+    }
+  }, [user?.wallet?.address, refreshBalances]);
+
+  const handleRefresh = async () => {
+    if (!user?.wallet?.address) return;
+    setIsRefreshing(true);
+    await refreshBalances(user.wallet.address);
+    setIsRefreshing(false);
+  };
+
+  // Convert balance state to assets format
+  const assets: Asset[] = Object.entries(balanceState.balances).map(([symbol, amount]) => {
+    const iconMap: Record<string, string> = {
+      "ETH": "/crypto-icons/ETH.png",
+      "USDC": "/crypto-icons/USDC.png",
+      "HBARX": "/crypto-icons/chains/296.svg",
+      "USDF": "/crypto-icons/usdf.png",
+      "HBAR": "/crypto-icons/chains/295.svg",
+    };
+
+    return {
+      symbol,
+      amount: amount.toFixed(4),
+      value: amount.toFixed(2),
+      chain: "Hedera", // Default to Hedera for now
+      icon: iconMap[symbol] || "/crypto-icons/ETH.png",
+    };
+  });
+
+  // Fallback to mock data if no balances
+  const displayAssets = assets.length > 0 ? assets : [
     {
       symbol: "ETH",
       amount: "1.38",
@@ -36,17 +77,17 @@ export default function AnalyticsPage() {
       icon: "/crypto-icons/USDC.png",
     },
     {
-      symbol: "FLOW",
+      symbol: "HBARX",
       amount: "2.99",
       value: "1.3",
-      chain: "Flow",
-      icon: "/crypto-icons/chains/747.svg",
+      chain: "Hedera",
+      icon: "/crypto-icons/chains/296.svg",
     },
     {
       symbol: "USDF",
       amount: "0.593",
       value: "0.593",
-      chain: "Flow",
+      chain: "Hedera",
       icon: "/crypto-icons/usdf.png",
     },
     {
@@ -58,13 +99,11 @@ export default function AnalyticsPage() {
     },
   ];
 
-  const chartData = [
-    { name: "USDC", percentage: Number(assets["1"]["value"]), color: "var(--chart-1)" },
-    { name: "FLOW", percentage: Number(assets["2"]["value"]), color: "var(--chart-2)" },
-    { name: "HBAR", percentage: Number(assets["4"]["value"]), color: "var(--chart-3)" },
-    { name: "ETH", percentage: Number(assets["0"]["value"]), color: "var(--chart-4)" },
-    { name: "USDF", percentage: Number(assets["3"]["value"]), color: "var(--chart-5)" },
-  ];
+  const chartData = displayAssets.map((asset, index) => ({
+    name: asset.symbol,
+    percentage: Number(asset.value),
+    color: `var(--chart-${(index % 5) + 1})`,
+  }));
 
   return (
     <div className="bg-background text-foreground">
@@ -108,8 +147,40 @@ export default function AnalyticsPage() {
 
                     {/* Action Buttons */}
                     <div className="flex flex-col sm:flex-row gap-3">
+                      <button
+                        onClick={handleRefresh}
+                        disabled={isRefreshing || balanceState.isLoading}
+                        className="flex flex-col items-center gap-2 px-4 sm:px-6 py-3 bg-muted/50 border border-border/50 rounded-xl hover:bg-muted/70 hover:border-accent/50 transition-all cursor-pointer flex-1 disabled:opacity-50"
+                      >
+                        <div className="w-8 h-8 flex items-center justify-center">
+                          {isRefreshing || balanceState.isLoading ? (
+                            <Loader2 size={24} className="text-foreground animate-spin" />
+                          ) : (
+                            <RefreshCw size={24} className="text-foreground" />
+                          )}
+                        </div>
+                        <div className="text-xs text-foreground/80 font-medium">
+                          {isRefreshing || balanceState.isLoading ? "Refreshing..." : "Refresh"}
+                        </div>
+                      </button>
+                      
+                      <div className="flex-1">
+                        <SwapDepositButton
+                          onSuccess={(result) => {
+                            console.log("Swap successful:", result);
+                            // Refresh balances after successful swap
+                            if (user?.wallet?.address) {
+                              refreshBalances(user.wallet.address);
+                            }
+                          }}
+                          onError={(error) => {
+                            console.error("Swap error:", error);
+                          }}
+                          className="w-full h-full"
+                        />
+                      </div>
+
                       {[
-                        { icon: RefreshCw, label: "Bridge" },
                         { icon: ArrowDownToLine, label: "Deposit" },
                         { icon: ArrowUpFromLine, label: "Withdraw" },
                       ].map((stat, index) => {
@@ -203,7 +274,7 @@ export default function AnalyticsPage() {
 
                 {/* Table Rows */}
                 <div className="space-y-4">
-                  {assets.map((asset, index) => (
+                  {displayAssets.map((asset, index) => (
                     <div
                       key={index}
                       className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 items-center py-3"
@@ -241,6 +312,13 @@ export default function AnalyticsPage() {
             </div>
           </div>
         </div>
+
+        {/* Debug Panel - Only show in development */}
+        {process.env.NODE_ENV === 'development' && (
+          <div className="mt-8">
+            <DebugPanel />
+          </div>
+        )}
       </div>
     </div>
   );
